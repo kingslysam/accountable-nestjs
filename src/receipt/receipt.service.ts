@@ -6,6 +6,21 @@ import { SupabaseService } from '../supabase/supabase.service';
 export class ReceiptService {
   constructor(private readonly supabaseService: SupabaseService) {}
 
+  async getReceiptByUid(uid: string): Promise<any | null> {
+    const { data, error } = await this.supabaseService.client
+      .from('receipt')
+      .select('*')
+      .eq('uid', uid);
+
+    if (data) {
+      return data;
+    }
+    if (error) {
+      return 'Error';
+    }
+    return null;
+  }
+
   async getReceipts(): Promise<any | null> {
     const { data, error } = await this.supabaseService.client
       .from('receipt')
@@ -28,7 +43,6 @@ export class ReceiptService {
    *
    */
   async createReceipt(CreateReceiptDto: CreateReceiptDto): Promise<any | null> {
-    console.log('CreateReceiptDto', CreateReceiptDto);
     const { data, error } = await this.supabaseService.client
       .from('receipt')
       .insert(CreateReceiptDto);
