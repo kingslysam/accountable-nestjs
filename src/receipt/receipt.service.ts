@@ -21,6 +21,25 @@ export class ReceiptService {
     return null;
   }
 
+  async getReceiptByReceiptNumber(
+    uid: string,
+    receipt_no: string,
+  ): Promise<any | null> {
+    const { data, error } = await this.supabaseService.client
+      .from('receipt')
+      .select('*')
+      .eq('uid', uid)
+      .eq('receipt_no', receipt_no);
+
+    if (data) {
+      return data;
+    }
+    if (error) {
+      return 'Error';
+    }
+    return null;
+  }
+
   async getReceipts(): Promise<any | null> {
     const { data, error } = await this.supabaseService.client
       .from('receipt')
@@ -51,7 +70,41 @@ export class ReceiptService {
       return data;
     }
     if (error) {
-      console.log('Samuel ', error);
+      return error;
+    }
+    return null;
+  }
+
+  async deleteAReceipt(uid: string, receipt_no: string): Promise<any | null> {
+    const { error } = await this.supabaseService.client
+      .from('receipt')
+      .delete()
+      .eq('uid', uid)
+      .eq('receipt_no', receipt_no);
+
+    if (error) {
+      return error;
+    } else {
+      return 'The receipt has been successfully delete.';
+    }
+  }
+
+  async updateAReceipt(
+    uid: string,
+    receipt_no: string,
+    updateData: any,
+  ): Promise<any | null> {
+    const { data, error } = await this.supabaseService.client
+      .from('receipt')
+      .update(updateData)
+      .eq('uid', uid)
+      .eq('receipt_no', receipt_no);
+
+    if (data) {
+      return data;
+    }
+    if (error) {
+      return error;
     }
     return null;
   }

@@ -13,7 +13,7 @@ async function bootstrap() {
     .addTag('accountable')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup('api/doc', app, document);
 
   await app.listen(3000);
 }

@@ -1,10 +1,5 @@
-import {
-  IsOptional,
-  IsString,
-  IsNumber,
-  IsDate,
-  IsObject,
-} from 'class-validator';
+/* eslint-disable prettier/prettier */
+import { IsOptional, IsString, IsObject } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateReceiptDto {
