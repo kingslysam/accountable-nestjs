@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ReceiptService } from './receipt.service';
 import {
@@ -16,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CreateReceiptDto } from './dto/create-receipt.dto';
+import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
 
 @ApiTags('Receipts')
 @Controller('receipt')
@@ -34,6 +36,7 @@ export class ReceiptController {
    *
    */
   @Post('create')
+  @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'Create a receipt' })
   @ApiResponse({
     status: 200,
