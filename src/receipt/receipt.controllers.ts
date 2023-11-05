@@ -15,7 +15,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 // import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
 
