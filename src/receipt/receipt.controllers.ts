@@ -6,7 +6,7 @@ import {
   Param,
   Patch,
   Post,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 import { ReceiptService } from './receipt.service';
 import {
@@ -16,7 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
-// import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
+import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
 
 @ApiTags('Receipts')
 @Controller('receipt')
@@ -35,7 +35,7 @@ export class ReceiptController {
    *
    */
   @Post('create')
-  // @UseGuards(SupabaseGuard)
+  @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'Create a receipt' })
   @ApiResponse({
     status: 200,
@@ -65,6 +65,7 @@ export class ReceiptController {
    *
    */
   @Get('all')
+  @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'Admin Use only Pulling all receipt' })
   @ApiBearerAuth()
   @ApiResponse({
@@ -84,6 +85,7 @@ export class ReceiptController {
    *
    */
   @Get(':uid')
+  @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'get receipts by a user' })
   @ApiResponse({
     status: 200,
@@ -106,6 +108,7 @@ export class ReceiptController {
    *
    */
   @Get(':uid/:receipt_no')
+  @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'get a receipt of a user' })
   @ApiResponse({
     status: 200,
@@ -145,6 +148,7 @@ export class ReceiptController {
   })
   @ApiResponse({ status: 403, description: 'Unauthorized.' })
   @Delete('/:uid/:receipt_no')
+  @UseGuards(SupabaseGuard)
   async deleteAReceipt(
     @Param('uid') uid: string,
     @Param('receipt_no') receipt_no: string,
@@ -178,6 +182,7 @@ export class ReceiptController {
   })
   @ApiResponse({ status: 403, description: 'Unauthorized.' })
   @Patch('/:uid/:receipt_no')
+  @UseGuards(SupabaseGuard)
   async updateAReceipt(
     @Param('uid') uid: string,
     @Param('receipt_no') receipt_no: string,
@@ -214,6 +219,7 @@ export class ReceiptController {
   })
   @ApiResponse({ status: 403, description: 'Unauthorized.' })
   @Get('filter/:uid/:startDate&:endDate/:receiptType')
+  @UseGuards(SupabaseGuard)
   async filterReceipts(
     @Param('uid') uid: string,
     @Param('startDate') startDate: string,
@@ -250,6 +256,7 @@ export class ReceiptController {
   })
   @ApiResponse({ status: 403, description: 'Unauthorized.' })
   @Get('search/:uid/:search')
+  @UseGuards(SupabaseGuard)
   async searchForReceipt(
     @Param('uid') uid: string,
     @Param('search') search: string,
