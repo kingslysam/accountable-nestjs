@@ -6,7 +6,7 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { ReceiptService } from './receipt.service';
 import {
@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CreateReceiptDto } from './dto/create-receipt.dto';
-import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
+// import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
 
 @ApiTags('Receipts')
 @Controller('receipt')
@@ -36,7 +36,7 @@ export class ReceiptController {
    *
    */
   @Post('create')
-  @UseGuards(SupabaseGuard)
+  // @UseGuards(SupabaseGuard)
   @ApiOperation({ summary: 'Create a receipt' })
   @ApiResponse({
     status: 200,
@@ -159,6 +159,25 @@ export class ReceiptController {
   }
 
   // Update attributes in a receipt
+  /**
+   * @description delete a receipt of a user by receipt_no
+   * @param {string} uid The user id
+   * @param {string} receipt_no The receipt_no
+   * @param {any} updateData The update data
+   * @returns {Promise<string>} The success on deletion of the receipt from uid
+   * @memberof ReceiptService
+   *
+   */
+  @ApiOperation({ summary: 'Update a receipt of a user' })
+  @ApiResponse({
+    status: 200,
+    description: 'All updates have been successfully made.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'No Error in updating the receipts.',
+  })
+  @ApiResponse({ status: 403, description: 'Unauthorized.' })
   @Patch('/:uid/:receipt_no')
   async updateAReceipt(
     @Param('uid') uid: string,
@@ -172,5 +191,43 @@ export class ReceiptController {
     );
 
     return JSON.stringify(updateReceipt);
+  }
+
+  // Filter by attributes in a receipt
+  /**
+   * @description filter a receipt of by date range and type
+   * @param {string} uid The user id
+   * @param {string} startDate The start date
+   * @param {string} endDate The end date
+   * @param {string} receiptType The receipt type
+   * @returns {Promise<string>} The All receipts that match the filter
+   * @memberof ReceiptService
+   *
+   */
+  @ApiOperation({ summary: 'filter a receipt of by date range and type' })
+  @ApiResponse({
+    status: 200,
+    description: 'All receipt that meet the criterias.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'No receipt found.',
+  })
+  @ApiResponse({ status: 403, description: 'Unauthorized.' })
+  @Get('filter/:uid/:startDate&:endDate/:receiptType')
+  async filterReceipts(
+    @Param('uid') uid: string,
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+    @Param('receiptType') receiptType: string,
+  ): Promise<any> {
+    const filterReceipts = await this.receiptService.filterReceipts(
+      uid,
+      startDate,
+      endDate,
+      receiptType,
+    );
+
+    return JSON.stringify(filterReceipts);
   }
 }

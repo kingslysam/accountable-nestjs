@@ -11,18 +11,22 @@ export class SupabaseGuard implements CanActivate {
     const token = request.headers.authorization?.split(' ')[1];
 
     if (!token) {
-        return false;
-    }
-    try {
-      const {data: { user }, error} = await this.supabaseService.client.auth.getUser(token);
-
-      if (!user && error) {
-        return false;
-      } else {
-        return true;
-      }
-    } catch (error) {
       return false;
+    } else {
+      try {
+        const {
+          data: { user },
+          error,
+        } = await this.supabaseService.client.auth.getUser(token);
+
+        if (!user && error) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (error) {
+        return false;
+      }
     }
   }
 }
