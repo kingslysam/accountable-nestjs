@@ -174,29 +174,22 @@ export class ReceiptService {
       }
       return null;
     }
+  }
 
-    // if (filterData.date !== '') {
-    //   const { data, error } = await query
-    //     .gte('date', filterData.dateFrom)
-    //     .lte('date', filterData.dateTo);
-
-    //   if (data) {
-    //     return data;
-    //   }
-    //   if (error) {
-    //     return error;
-    //   }
-    //   return null;
-    // } else if (filterData.type !== '') {
-    //   const { data, error } = await query.eq('type', filterData.type);
-
-    //   if (data) {
-    //     return data;
-    //   }
-    //   if (error) {
-    //     return error;
-    //   }
-    //   return null;
-    // }
+  async searchForReceipt(uid: string, search: string): Promise<any | null> {
+    const { data, error } = await this.supabaseService.client
+      .from('receipt')
+      .select()
+      .eq('uid', uid)
+      .or(
+        `name_of_issuer.eq.${search},tin.eq.${search},receipt_no.eq.${search},receipt_verification_code.eq.${search},serial_no.eq.${search}`,
+      );
+    if (data) {
+      return this.responseFunction(200, 'Receipts found', data, null);
+    } else if (error) {
+      return this.responseFunction(400, 'Error found', null, error);
+    } else {
+      return this.responseFunction(500, 'No receipt found', null, null);
+    }
   }
 }

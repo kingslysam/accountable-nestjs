@@ -230,4 +230,35 @@ export class ReceiptController {
 
     return JSON.stringify(filterReceipts);
   }
+
+  // Search by attributes in a receipt
+  /**
+   * @description search a receipt
+   * @param {string} uid The user id
+   * @param {string} search The search string
+   * @returns {Promise<string>} The All receipts that match the search
+   * @memberof ReceiptService
+   *
+   */
+  @ApiOperation({ summary: 'search a receipt' })
+  @ApiResponse({
+    status: 200,
+    description: 'All receipt that match the search.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'No receipt found.',
+  })
+  @ApiResponse({ status: 403, description: 'Unauthorized.' })
+  @Get('search/:uid/:search')
+  async searchForReceipt(
+    @Param('uid') uid: string,
+    @Param('search') search: string,
+  ): Promise<any> {
+    const searchReceipt = await this.receiptService.searchForReceipt(
+      uid,
+      search,
+    );
+    return JSON.stringify(searchReceipt);
+  }
 }
