@@ -7,9 +7,10 @@ import { ReceiptController } from './receipt.controllers';
 // import { JwtStrategy } from './strategies/jwt.strategy';
 // import { SupabaseStrategy } from './strategies/supabase.strategy';
 import { SupabaseModule } from '../supabase/supabase.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [ConfigModule, SupabaseModule],
+  imports: [ConfigModule, SupabaseModule, HttpModule],
   controllers: [ReceiptController],
   providers: [
     ReceiptService,

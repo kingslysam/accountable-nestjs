@@ -1,0 +1,44 @@
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IjZjRU4vZkVBRExHc3B0RE4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjk5MTE2NDEwLCJpYXQiOjE2OTkxMTI4MTAsImlzcyI6Imh0dHBzOi8vdGVtbHlxZGZ2ZHVqaWlsd2l3b2Yuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjM3MTUyOTgzLWM3NmEtNGViMi05ZDExLWQyMDUzZDQ3OWZkNCIsImVtYWlsIjoic2FteW9uYTQ4QGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZmlyc3RfbmFtZSI6IisyNTU2OTk0NTkyMTIiLCJsYXN0X25hbWUiOiJTYW11ZWwifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTY5OTExMjgxMH1dLCJzZXNzaW9uX2lkIjoiMjgzNzAzMzYtN2YxMS00NDFmLTg1ODEtYWZlMDUzYTdiNGM2In0.7CtA178vmnIN7oqEh4UUGPwpBTj2yCI5OzC7-Hj14o4",
+    "token_type": "bearer",
+    "expires_in": 3600,
+    "expires_at": 1699116410,
+    "refresh_token": "0K4j_ef1LRmB2fATv6GMRQ",
+    "user": {
+        "id": "37152983-c76a-4eb2-9d11-d2053d479fd4",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": "samyona48@gmail.com",
+        "email_confirmed_at": "2023-10-31T12:31:24.805846Z",
+        "phone": "",
+        "confirmation_sent_at": "2023-10-31T12:31:05.857032Z",
+        "confirmed_at": "2023-10-31T12:31:24.805846Z",
+        "last_sign_in_at": "2023-11-04T15:46:50.376944147Z",
+        "app_metadata": {
+            "provider": "email",
+            "providers": [
+                "email"
+            ]
+        },
+        "user_metadata": {
+            "first_name": "+255699459212",
+            "last_name": "Samuel"
+        },
+        "identities": [
+            {
+                "id": "37152983-c76a-4eb2-9d11-d2053d479fd4",
+                "user_id": "37152983-c76a-4eb2-9d11-d2053d479fd4",
+                "identity_data": {
+                    "email": "samyona48@gmail.com",
+                    "sub": "37152983-c76a-4eb2-9d11-d2053d479fd4"
+                },
+                "provider": "email",
+                "last_sign_in_at": "2023-10-25T14:55:14.113282Z",
+                "created_at": "2023-10-25T14:55:14.11332Z",
+                "updated_at": "2023-10-25T14:55:14.11332Z"
+            }
+        ],
+        "created_at": "2023-10-25T14:55:14.101281Z",
+        "updated_at": "2023-11-04T15:46:50.380746Z"
+    }
+}

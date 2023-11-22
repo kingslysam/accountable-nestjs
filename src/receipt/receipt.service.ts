@@ -1,11 +1,17 @@
-//TODO: Search APIS by name of issuer, customer name, serial number, date, tin, customer name, receipt verification code
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
+import { HttpService } from '@nestjs/axios';
+import axios from 'axios';
+// import axios from 'axios';
+// import { format } from 'path';
 
 @Injectable()
 export class ReceiptService {
-  constructor(private readonly supabaseService: SupabaseService) {}
+  constructor(
+    private readonly supabaseService: SupabaseService,
+    private readonly httpService: HttpService,
+  ) {}
 
   responseFunction(
     statusCode: number,
@@ -190,6 +196,28 @@ export class ReceiptService {
       return this.responseFunction(400, 'Error found', null, error);
     } else {
       return this.responseFunction(500, 'No receipt found', null, null);
+    }
+  }
+
+  async getDataOfReceiptFromGoogleApi(
+    formUnifiedData: any,
+  ): Promise<any | null> {
+    const formData = new FormData();
+    formData.append('invoice', formUnifiedData);
+    try {
+      return axios
+        .post('http://127.0.0.1:8000/extract-invoice', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          return response;
+        });
+    } catch (e) {
+      console.log(e);
+      return e;
     }
   }
 }

@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ReceiptService } from './receipt.service';
 import {
@@ -17,6 +19,8 @@ import {
 } from '@nestjs/swagger';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { SupabaseGuard } from 'src/supabase/supabase-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import axios from 'axios';
 
 @ApiTags('Receipts')
 @Controller('receipt')
@@ -266,5 +270,71 @@ export class ReceiptController {
       search,
     );
     return JSON.stringify(searchReceipt);
+  }
+
+  // Retreive data of a receipt
+  /**
+   * @description google ai a receipt
+   * @param {string} _formData The search string
+   * @returns {Promise<string>} The All receipts that match the search
+   * @memberof ReceiptService
+   *
+   */
+  @ApiOperation({ summary: 'get data from receipt' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data From Google AI Document.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'No Data found.',
+  })
+  @ApiResponse({ status: 403, description: 'Unauthorized.' })
+  // @Post('upload')
+  // @UseGuards(SupabaseGuard)
+  // async getDataOfReceiptFromGoogleApi(
+  //   @Param('FormData') FormData: any,
+  //   @Body() _formData: any,
+  // ): Promise<any> {
+  //   console.log('Formdata got from ', FormData);
+  //   console.log('Form data got from ', _formData);
+  //   const DataFromGoogleAI =
+  //     await this.receiptService.getDataOfReceiptFrocmGoogleApi(FormData);
+  //   return JSON.stringify(DataFromGoogleAI);
+  // }
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('invoice'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
+    console.log(file);
+    try {
+      // Perform authorization checks here using the authorization header
+      if (!file) {
+        return { success: false, message: 'No file uploaded' };
+      }
+      const fileBlob = Buffer.from(file.buffer);
+      const blobFile = new Blob([fileBlob], { type: file.mimetype });
+
+      const formData = new FormData();
+      formData.append('invoice', blobFile);
+
+      const response = await axios.post(
+        'http://localhost:8000/extract-invoice',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      console.log(response);
+      // Process the uploaded file (e.g., save to disk or perform other operations)
+      // const DataFromGoogleAI =
+      //   await this.receiptService.getDataOfReceiptFromGoogleApi(file);
+      // return JSON.stringify(DataFromGoogleAI);
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: 'Error uploading file' };
+    }
   }
 }
